@@ -18,7 +18,9 @@ function setup(){
 function draw(){
   //change the background when we hit the middle mouse button
   changeBackground();
+  background(currentBackColor);
 
+  //get rid off outlines
   noStroke();
 
   //draw our clouds
@@ -32,7 +34,7 @@ function draw(){
   //house
   fill("yellow");
   rect(2000, 2200, 1000, 800);
-  fill("red");
+  fill(166, 47, 32);
   triangle(1950, 2225, 2500, 1600, 3050, 2225);
   fill("brown");
   rect(2500, 2500, 300, 500);
@@ -41,19 +43,23 @@ function draw(){
   fill("lightblue");
   rect(2050, 2500, 400, 250);
 
-  //draw character and make it follow the mouse
-  character();
+  //draw skateboard
+  skateboard();
 
   //artist mark
   fill("black");
   textSize(200);
   text("Kyle", 7000, 3750);
+
+  //draw character and make it follow the mouse
+  character();
 }
 
-
 function cloud(){
+  //speed
   let randomInt = random(14,15);
   xPos += randomInt;
+  //draw parts of cloud
   circle(xPos + 160, yPos, 400);
   circle(xPos - 100, yPos, 400);
   circle(xPos - 125, yPos + 70, 400);
@@ -61,11 +67,11 @@ function cloud(){
   circle(xPos + 140, yPos - 76, 400);
   circle(xPos - 35, yPos - 140, 400);
   circle(xPos, yPos + 120, 400);
+  //loop cloud around the screen
   if(xPos > 8000){
     xPos = 0;
   }
 }
-
 
 function character(){
   fill(254, 219, 177);
@@ -77,33 +83,41 @@ function character(){
   rect(mouseX - 100, mouseY + 100, 200, 40, 0, 0, 70);
 }
 
+function mouseClicked(){
+  print(mouseButton);
+  if(mouseButton === LEFT && currentBack < 3){
+    currentBack += 1;
+  }
+  //reset var to loop colors
+  else currentBack = 0;
+}
 
 function changeBackground(){
-  background(currentBackColor);
-
-  if(mouseButton === "LEFT"){
-    if(currentBack < 3){
-      currentBack = 0;
-    }
-
-    else currentBack += 1;
-  }
-
+  //colors for each number
+  print(currentBack);
   if(currentBack === 0){
     currentBackColor = "cyan";
   }
 
   if(currentBack === 1){
-    currentBackColor = "green";
+    currentBackColor = "red";
   }
 
   if(currentBack === 2){
-    currentBackColor = "purple";
+    currentBackColor = "green";
   }
 
   if(currentBack === 3){
-    currentBackColor = "black";
+    currentBackColor = "purple";
   }
+}
 
-  print(currentBack);
+function skateboard(){
+  fill("orange");
+  rect(500, 2900, 100, 100, 50);
+  rect(1000, 2900, 100, 100, 50);
+  fill("black");
+  rect(400, 2800, 800, 100, 50);
+
+  //add movement for skateboard
 }
