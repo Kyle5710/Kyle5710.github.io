@@ -8,8 +8,13 @@ let currentBack = 0;
 let currentBackColor = "cyan";
 
 //cloud x and y positions
-let xPos = 150;
+let xPos = -200;
 let yPos = 550;
+
+//skateboard position
+let skatePos = 3000;
+
+
 
 function setup(){
   createCanvas(windowWidth, windowHeight);
@@ -29,7 +34,7 @@ function draw(){
 
   //draw ground
   fill("Tan");
-  rect(0, 3000, 8000, 1000);
+  rect(0, 3000, width, height);
 
   //house
   fill("yellow");
@@ -49,7 +54,7 @@ function draw(){
   //artist mark
   fill("black");
   textSize(200);
-  text("Kyle", 7000, 3750);
+  text("Kyle", windowWidth - 500, windowHeight - 100);
 
   //draw character and make it follow the mouse
   character();
@@ -68,8 +73,8 @@ function cloud(){
   circle(xPos - 35, yPos - 140, 400);
   circle(xPos, yPos + 120, 400);
   //loop cloud around the screen
-  if(xPos > 8000){
-    xPos = 0;
+  if(xPos > windowWidth + 400){
+    xPos = -200;
   }
 }
 
@@ -84,7 +89,6 @@ function character(){
 }
 
 function mouseClicked(){
-  print(mouseButton);
   if(mouseButton === LEFT && currentBack < 3){
     currentBack += 1;
   }
@@ -113,11 +117,23 @@ function changeBackground(){
 }
 
 function skateboard(){
-  fill("orange");
-  rect(500, 2900, 100, 100, 50);
-  rect(1000, 2900, 100, 100, 50);
-  fill("black");
-  rect(400, 2800, 800, 100, 50);
+  if(keyIsPressed === true){
+    if(keyCode === RIGHT_ARROW){
+      skatePos = skatePos + 15;
+    }
 
-  //add movement for skateboard
+    else if(keyCode === LEFT_ARROW){
+      skatePos = skatePos - 15;
+    }
+  }
+
+  fill("orange");
+  rect(skatePos + 500, 2900, 100, 100, 50);
+  rect(skatePos + 1000, 2900, 100, 100, 50);
+  fill("black");
+  rect(skatePos + 400, 2800, 800, 100, 50);
+
+  if(skatePos > windowWidth - 500 || skatePos < -1000 || keyCode === 82){
+    skatePos = 3000;
+  }
 }
