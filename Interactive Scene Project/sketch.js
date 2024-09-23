@@ -14,8 +14,6 @@ let yPos = 550;
 //skateboard position
 let skatePos = 3000;
 
-
-
 function setup(){
   createCanvas(windowWidth, windowHeight);
 }
