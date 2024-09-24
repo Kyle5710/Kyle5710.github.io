@@ -96,7 +96,6 @@ function mouseClicked(){
 
 function changeBackground(){
   //colors for each number
-  print(currentBack);
   if(currentBack === 0){
     currentBackColor = "cyan";
   }
