@@ -1,7 +1,7 @@
 //Interactive Scene Project
 //Kyle MacLean
 //September 16, 2024
-//An scene that the user can interact with
+//A scene that the user can interact with
 
 //change background vars
 let currentBack = 0;
@@ -77,6 +77,7 @@ function cloud(){
 }
 
 function character(){
+  //draw the character and have it follow mouse
   fill(254, 219, 177);
   rect(mouseX - 250, mouseY - 225, 500, 500, 500);
   fill("green");
@@ -114,6 +115,7 @@ function changeBackground(){
 }
 
 function skateboard(){
+  //if right or left arrow pressed move skateboard
   if(keyIsPressed === true){
     if(keyCode === RIGHT_ARROW){
       skatePos = skatePos + 15;
@@ -131,6 +133,8 @@ function skateboard(){
   rect(skatePos + 400, 2800, 800, 100, 50);
 
   if(skatePos > windowWidth - 500 || skatePos < -1000 || keyCode === 82){
+    //if skateboard goes too far left/right or r is pressed then reset its position
     skatePos = 3000;
   }
 }
+
