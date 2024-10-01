@@ -76,7 +76,7 @@ function staircase(){
     //20... rectangle spacing / rectWidth
     fill(0);
     strokeWeight(0);
-    let rectHeight = random(50, 500);
+    let rectHeight = random(50, 700);
     rect(x, height, 20, -rectHeight);
   }
 
