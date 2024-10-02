@@ -14,6 +14,7 @@ let totalHeight = 0;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  noStroke();
 }
 
 function draw() {
@@ -51,6 +52,7 @@ function generateTerrain() {
     rectHeight = map(rectHeight, 0, 1, 0, height);
 
     //draw rect
+    fill("darkgreen");
     rect(x, height, rectWidth, -rectHeight);
 
     //check for highest point in the rects
@@ -85,7 +87,7 @@ function drawFlag(x, y) {
   //draw the flag and set fill colors/position
   fill("black");
   rect(x, y - 45, 10, 45);
-  fill("green");
+  fill("magenta");
   triangle(x + 10, y - 45, x + 10, y - 20, x + 35, y - 20);
   fill("white");
 }
