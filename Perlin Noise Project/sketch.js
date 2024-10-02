@@ -1,7 +1,7 @@
 // Perlin Noise Project
 // Kyle MacLean
 // October 1, 2024
-// describe it here later
+// Uses perlin noise to generate terrain and calculate average height/tallest height within the terrain
 
 //global vars
 let noiseVar = 0;
