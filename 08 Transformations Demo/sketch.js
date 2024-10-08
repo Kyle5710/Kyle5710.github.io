@@ -67,8 +67,8 @@ function draw() {
 
   //Individual Challenge
 
-  
-  push();
+
+  /* push();
   angleMode(DEGREES);
   drawBasicGrid(180);
   translate(200, 200);
@@ -85,7 +85,23 @@ function draw() {
   }
 
   pop();
+ */
 
+  let numSpokes = 30
+
+  push();
+
+  translate(200, 200);
+  fill("cyan"); 
+  circle(0, 0, 200);
+  rotate(frameCount / 60);
+
+  for (i = 0; i < numSpokes; i++) {
+    line(60, 65, 100, 0);
+    rotate(360 / numSpokes);
+  }
+
+  pop();
 }
 
 
