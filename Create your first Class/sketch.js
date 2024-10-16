@@ -10,9 +10,9 @@ function setup() {
 
   let yPos = 0; //set starting racer yPos
 
-  for (i = 0; i < 3; i++) {
+  for (i = 0; i < 1000; i++) {
     yPos += 100; //space racers by 100px
-    racers.push(new RoundRacer(yPos, color(random(255), random(255), random(255)))); //random colors
+    racers.push(new RoundRacer(random(height), color(random(255), random(255), random(255)))); //random colors
   }
 }
 
@@ -26,6 +26,7 @@ function draw() {
   }
 }
 
+
 class RoundRacer {
   constructor(yPos, color) {
     this.yPosition = yPos;
@@ -36,6 +37,7 @@ class RoundRacer {
 
   display() {
     fill(this.color);
+    noStroke();
     circle(this.xPosition, this.yPosition, 50);
   }
 
