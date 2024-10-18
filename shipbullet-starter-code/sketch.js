@@ -4,6 +4,7 @@
 
 let enterprise;
 let shipImage, bulletImage;
+let shipSpeed = 5;
 
 function preload() {
   shipImage = loadImage("assets/enterprise.png");
@@ -12,7 +13,7 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  enterprise = new Ship(width/2, height/2, shipImage);
+  enterprise = new Ship(width / 2, height / 2, shipImage);
 }
 
 function draw() {
@@ -22,7 +23,9 @@ function draw() {
 }
 
 function keyPressed() {
-  enterprise.handleKeyPress();
+  if (keyCode === 32) {
+    enterprise.handleKeyPress();
+  }
 }
 
 class Ship {
@@ -34,40 +37,36 @@ class Ship {
   }
 
   update() {
-    if(keyIsDown(LEFT_ARROW)){
-      this.x -= 2;
+    if (keyIsDown(LEFT_ARROW)) {
+      this.x -= shipSpeed;
     }
 
-    if(keyIsDown(RIGHT_ARROW)){
-      this.x += 2;
+    if (keyIsDown(RIGHT_ARROW)) {
+      this.x += shipSpeed;
     }
 
-    if(keyIsDown(DOWN_ARROW)){
-      this.y += 2;
+    if (keyIsDown(DOWN_ARROW)) {
+      this.y += shipSpeed;
     }
 
-    if(keyIsDown(UP_ARROW)){
-      this.y -= 2;
+    if (keyIsDown(UP_ARROW)) {
+      this.y -= shipSpeed;
     }
 
-    for(b of this.bullets){
-      b.update();
-    }
-    
+    //creates a new array only containing bullets that are still on screen
+    this.bullets = this.bullets.filter(b => (b.update(), b.isOnScreen()));
   }
 
   display() {
-    image(shipImage, this.x, this.y);
-    for(b of this.bullets){
+    image(this.image, this.x, this.y);
+    for (let b of this.bullets) {
       b.display();
     }
   }
 
   handleKeyPress() {
-    // you only need to use this if you are doing the extra for experts...
-    // if you are, you should make a bullet if the space key was pressed
-    if(keyIsDown(32)){
-      this.bullets.push(new Bullet(this.x, this.y, 0, 15, bulletImage));
+    if (keyCode === 32) {
+      this.bullets.push(new Bullet(this.x + 35, this.y, 0, 15, bulletImage));
     }
   }
 }
@@ -90,7 +89,6 @@ class Bullet {
   }
 
   update() {
-    // what does the bullet need to do during each frame? how do we know if it is off screen?
     this.y -= this.dy;
   }
 
@@ -99,6 +97,6 @@ class Bullet {
   }
 
   isOnScreen() {
+    return this.y > 0;
   }
 }
-
