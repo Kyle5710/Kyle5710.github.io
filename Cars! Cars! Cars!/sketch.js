@@ -11,11 +11,29 @@ function setup() {
   //push 20 vehicles into each array here
   //east should have positive xSpeed, direction set properly, y random but in correct lane
   //west should have the opposite
+  for (i = 0; i < 20; i++) {
+    eastbound.push(new Vehicle(round(random(0, 1)), color(random(255), random(255), random(255)), random(0, width), random(250, height/2 - 50), 1, random(-1, -5))); 
+    westbound.push(new Vehicle(round(random(0, 1)), color(random(255), random(255), random(255)), random(0, width), random(400, height)), 0, random(1, 5));
+  }
+
 }
 
 function draw() {
   background(35);
   drawRoad();
+
+  for (let i = 0; i < eastbound.length; i++) {
+    eastbound[i].display();
+    eastbound[i].move();
+    eastbound[i].speedUp();
+    eastbound[i].speedDown();
+    eastbound[i].changeColor();
+  }
+
+  /* for (let i = 0; i < westbound.length; i++) {
+    westbound[i].display();
+    westbound[i].move();
+  } */
 }
 
 function drawRoad() {
@@ -30,9 +48,32 @@ function drawRoad() {
   noStroke();
 }
 
-class Vehicle{
-  constructor(type, color, x, y, direction, xSpeed){
+function vehicleType(type, x, y, color) {
+  if (type === 0) {
+    fill("brown");
+    rect(x + 40, y - 5, 10);
+    rect(x, y + 20, 10);
+    rect(x, y - 5, 10);
+    rect(x + 40, y + 20, 10);
+    fill(color);
+    rect(x, y, 50, 25);
+  }
+
+  else if(type === 1){
+    fill("grey");
+    rect(x + 65, y - 5, 10);
+    rect(x, y + 20, 10);
+    rect(x, y - 5, 10);
+    rect(x + 65, y + 20, 10);
+    fill(color);
+    rect(x, y, 75, 25);
+  }
+}
+
+class Vehicle {
+  constructor(type, color, x, y, direction, xSpeed) {
     //this.type: 0 = car, 1 = truck
+    //eastbound direction = 1 westbound direction = 0
     this.type = type;
     this.color = color;
     this.x = x;
@@ -41,23 +82,40 @@ class Vehicle{
     this.xSpeed = xSpeed;
   }
 
-  move(){
-
+  move() {
+    this.x += this.xSpeed;
   }
 
-  speedUp(){
-
+  speedUp() {
+    let chance = round(random(1,100));
+    if(chance === 1){
+      //do stuff
+    }
   }
 
-  speedDown(){
-
+  speedDown() {
+    let chance = round(random(1,100));
+    if(chance === 1){
+      //do stuff
+    }
   }
 
-  changeColor(){
-
+  changeColor() {
+    let chance = round(random(1,100));
+    if(chance === 1){
+      //do stuff
+    }
   }
 
-  display(){
+  display() {
+    vehicleType(this.type, this.x, this.y, this.color);
+
+    if(this.x > width + 50){
+      this.x = 0;
+    }
     
+    else if (this.x < -100) {
+      this.x = width;
+    }
   }
 }
