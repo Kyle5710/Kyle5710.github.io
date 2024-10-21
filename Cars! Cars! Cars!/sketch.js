@@ -32,11 +32,32 @@ function drawRoad() {
 
 class Vehicle{
   constructor(type, color, x, y, direction, xSpeed){
+    //this.type: 0 = car, 1 = truck
     this.type = type;
     this.color = color;
     this.x = x;
     this.y = y;
     this.direction = direction;
     this.xSpeed = xSpeed;
+  }
+
+  move(){
+
+  }
+
+  speedUp(){
+
+  }
+
+  speedDown(){
+
+  }
+
+  changeColor(){
+
+  }
+
+  display(){
+    
   }
 }
