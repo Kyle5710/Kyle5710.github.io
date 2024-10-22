@@ -8,35 +8,46 @@ let westbound = [];
 
 function setup() {
   createCanvas(1000, 1000);
-  //push 20 vehicles into each array here
-  //east should have positive xSpeed, direction set properly, y random but in correct lane
-  //west should have the opposite
   for (i = 0; i < 20; i++) {
-    eastbound.push(new Vehicle(round(random(0, 1)), color(random(255), random(255), random(255)), random(0, width), random(250, height/2 - 50), 1, random(-1, -5))); 
-    westbound.push(new Vehicle(round(random(0, 1)), color(random(255), random(255), random(255)), random(0, width), random(400, height)), 0, random(1, 5));
+    //push 20 vehicles into each lane
+    eastbound.push(new Vehicle(round(random(0, 1)), color(random(255), random(255), random(255)), random(0, width), random(250, height / 2 - 50), 1, random(-1, -5)));
+    westbound.push(new Vehicle(round(random(0, 1)), color(random(255), random(255), random(255)), random(0, width), random(height / 2 + 25, 700), 0, random(1, 5)));
   }
-
 }
 
 function draw() {
   background(35);
   drawRoad();
+  trafficLight();
+  updateVehicles();
+}
 
-  for (let i = 0; i < eastbound.length; i++) {
-    eastbound[i].display();
-    eastbound[i].move();
-    eastbound[i].speedUp();
-    eastbound[i].speedDown();
-    eastbound[i].changeColor();
+function mouseClicked() {
+  //add new vehicles in their correct lanes dependent on user input
+  if (keyIsPressed && keyCode === SHIFT) {
+    westbound.push(new Vehicle(round(random(0, 1)), color(random(255), random(255), random(255)), random(0, width), random(height / 2 + 25, 700), 0, random(1, 5)));
+    print("Car Added Westbound!");
   }
 
-  /* for (let i = 0; i < westbound.length; i++) {
-    westbound[i].display();
-    westbound[i].move();
-  } */
+  else {
+    eastbound.push(new Vehicle(round(random(0, 1)), color(random(255), random(255), random(255)), random(0, width), random(250, height / 2 - 50), 1, random(-1, -5)));
+    print("Car Added Eastbound!");
+  }
+}
+
+function updateVehicles(){
+  //update time
+  for (let i = 0; i < eastbound.length; i++) {
+    eastbound[i].update();
+  }
+
+  for (let i = 0; i < westbound.length; i++) {
+    westbound[i].update();
+  }
 }
 
 function drawRoad() {
+  //draws the road
   fill(0);
   rect(0, 240, width, 500);
 
@@ -48,7 +59,24 @@ function drawRoad() {
   noStroke();
 }
 
+function trafficLight(){
+  //draw traffic light with 2 states (red/green)
+  //green nothing happens, red all vehicles stop for 120 frames then reset to green
+  //gets set to red after user presses space
+  let lightState = "green";
+  if(keyIsPressed && keyCode == 32){
+    lightState = "red";
+  }
+
+  if(lightState === "red"){
+
+    lightState === "green";
+  }
+
+}
+
 function vehicleType(type, x, y, color) {
+  //draws the cars depending on their type
   if (type === 0) {
     fill("brown");
     rect(x + 40, y - 5, 10);
@@ -59,7 +87,7 @@ function vehicleType(type, x, y, color) {
     rect(x, y, 50, 25);
   }
 
-  else if(type === 1){
+  else if (type === 1) {
     fill("grey");
     rect(x + 65, y - 5, 10);
     rect(x, y + 20, 10);
@@ -82,38 +110,86 @@ class Vehicle {
     this.xSpeed = xSpeed;
   }
 
+  update() {
+    //update time
+    this.move();
+    this.speedUp();
+    this.speedDown();
+    this.changeColor();
+    this.display();
+  }
+
   move() {
+    //moves cars depending on this.xSpeed
     this.x += this.xSpeed;
   }
 
   speedUp() {
-    let chance = round(random(1,100));
-    if(chance === 1){
-      //do stuff
+    //1% chance to speed up vehicles
+    if (round(random(1, 100)) === 1) {
+      if (this.direction === 1) {
+        this.xSpeed -= random(3);
+      }
+
+      else if (this.direction === 0) {
+        this.xSpeed += random(3);
+      }
+
+      if (this.xSpeed > 15) {
+        this.xSpeed = 15;
+      }
+
+      if (this.xSpeed < -15) {
+        this.xSpeed = -15;
+      }
+
+      print("Speed Up!");
+      print(this.xSpeed);
     }
   }
 
   speedDown() {
-    let chance = round(random(1,100));
-    if(chance === 1){
-      //do stuff
+    //1% chance to speed down vehicles
+    if (round(random(1, 100)) === 1) {
+      if (this.direction === 1) {
+        this.xSpeed += random(2.5);
+
+        if (this.xSpeed > 0) {
+          this.xSpeed = 0;
+        }
+      }
+
+      else if (this.direction === 0) {
+        this.xSpeed -= random(2.5);
+
+        if (this.xSpeed < 0) {
+          this.xSpeed = 0;
+        }
+      }
+
+      print("Speed Down!");
+      print(this.xSpeed);
     }
   }
 
   changeColor() {
-    let chance = round(random(1,100));
-    if(chance === 1){
-      //do stuff
+    //1% chance to change vehicles color
+    let chance = round(random(1, 100));
+    if (chance === 1) {
+      this.color = color(random(255), random(255), random(255))
+
+      print("Changed Color!");
     }
   }
 
   display() {
+    //display vehicles and wrap around code
     vehicleType(this.type, this.x, this.y, this.color);
 
-    if(this.x > width + 50){
-      this.x = 0;
+    if (this.x > width + 50) {
+      this.x = -100;
     }
-    
+
     else if (this.x < -100) {
       this.x = width;
     }
