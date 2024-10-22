@@ -14,13 +14,16 @@ function setup() {
     eastbound.push(new Vehicle(round(random(0, 1)), color(random(255), random(255), random(255)), random(0, width), random(250, height / 2 - 50), 1, random(-1, -5)));
     westbound.push(new Vehicle(round(random(0, 1)), color(random(255), random(255), random(255)), random(0, width), random(height / 2 + 25, 700), 0, random(1, 5)));
   }
+
+  trafficLight = new TrafficLight("green");
 }
 
 function draw() {
   background(35);
   drawRoad();
-  trafficLight();
   updateVehicles();
+
+  trafficLight.update();
 }
 
 function mouseClicked() {
@@ -58,32 +61,6 @@ function drawRoad() {
   line(0, height / 2, width, height / 2);
 
   noStroke();
-}
-
-
-function trafficLight() {
-  drawLight(lightState);
-  if (keyIsPressed && keyCode === 32) {
-    delay();
-  }
-}
-
-function drawLight(color) {
-  fill(color);
-  rect(width / 2, height / 2 - 25, 50);
-}
-
-//FIX THIS
-function delay() {
-  let frames = 0;
-  while (frames < 120) {
-    frameRate(0);
-    lightState = "red";
-    frames += 1;
-    print(frames);
-  }
-  frameRate(60);
-  lightState = "green";
 }
 
 function vehicleType(type, x, y, color) {
@@ -203,6 +180,30 @@ class Vehicle {
 
     else if (this.x < -100) {
       this.x = width;
+    }
+  }
+}
+
+class TrafficLight {
+  constructor(state) {
+    this.state = state;
+  }
+
+  update() {
+    fill(this.state);
+
+    rect(width / 2, height / 2 - 25, 50);
+
+    //FIX THIS
+    if (keyIsDown && keyCode === 32) {
+      this.state = "red";
+      if (this.state === "red") {
+        //stop all vehicles for 120 frames
+        frameRate(0);
+
+        //turn state back to green
+        this.state = "green";
+      }
     }
   }
 }
