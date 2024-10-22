@@ -3,6 +3,7 @@
 // October 18, 2024
 // Simulation of vehicles commuting on a road
 
+let lightState = "green";
 let eastbound = [];
 let westbound = [];
 
@@ -35,7 +36,7 @@ function mouseClicked() {
   }
 }
 
-function updateVehicles(){
+function updateVehicles() {
   //update time
   for (let i = 0; i < eastbound.length; i++) {
     eastbound[i].update();
@@ -59,20 +60,30 @@ function drawRoad() {
   noStroke();
 }
 
-function trafficLight(){
-  //draw traffic light with 2 states (red/green)
-  //green nothing happens, red all vehicles stop for 120 frames then reset to green
-  //gets set to red after user presses space
-  let lightState = "green";
-  if(keyIsPressed && keyCode == 32){
+
+function trafficLight() {
+  drawLight(lightState);
+  if (keyIsPressed && keyCode === 32) {
+    delay();
+  }
+}
+
+function drawLight(color) {
+  fill(color);
+  rect(width / 2, height / 2 - 25, 50);
+}
+
+//FIX THIS
+function delay() {
+  let frames = 0;
+  while (frames < 120) {
+    frameRate(0);
     lightState = "red";
+    frames += 1;
+    print(frames);
   }
-
-  if(lightState === "red"){
-
-    lightState === "green";
-  }
-
+  frameRate(60);
+  lightState = "green";
 }
 
 function vehicleType(type, x, y, color) {
@@ -176,7 +187,7 @@ class Vehicle {
     //1% chance to change vehicles color
     let chance = round(random(1, 100));
     if (chance === 1) {
-      this.color = color(random(255), random(255), random(255))
+      this.color = color(random(255), random(255), random(255));
 
       print("Changed Color!");
     }
