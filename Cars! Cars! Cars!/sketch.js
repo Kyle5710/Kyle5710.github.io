@@ -3,7 +3,6 @@
 // October 18, 2024
 // Simulation of vehicles commuting on a road
 
-let lightState = "green";
 let eastbound = [];
 let westbound = [];
 
