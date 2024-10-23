@@ -5,9 +5,12 @@
 
 let eastbound = [];
 let westbound = [];
+let moving = true;
+let timeElapsed = 0;
 
 function setup() {
   createCanvas(1000, 1000);
+  frameRate(60);
   for (i = 0; i < 20; i++) {
     //push 20 vehicles into each lane
     eastbound.push(new Vehicle(round(random(0, 1)), color(random(255), random(255), random(255)), random(0, width), random(250, height / 2 - 50), 1, random(-1, -5)));
@@ -18,9 +21,11 @@ function setup() {
 }
 
 function draw() {
+  timeElapsed++;
   background(35);
   drawRoad();
   updateVehicles();
+  timeLogic();
 
   trafficLight.update();
 }
@@ -108,7 +113,10 @@ class Vehicle {
 
   move() {
     //moves cars depending on this.xSpeed
-    this.x += this.xSpeed;
+    if(moving){
+      this.x += this.xSpeed;
+      timeElapsed = 0;
+    }
   }
 
   speedUp() {
@@ -139,7 +147,7 @@ class Vehicle {
     //1% chance to speed down vehicles
     if (round(random(1, 100)) === 1) {
       if (this.direction === 1) {
-        this.xSpeed += random(2.5);
+        this.xSpeed += random(2);
 
         if (this.xSpeed > 0) {
           this.xSpeed = 0;
@@ -147,7 +155,7 @@ class Vehicle {
       }
 
       else if (this.direction === 0) {
-        this.xSpeed -= random(2.5);
+        this.xSpeed -= random(2);
 
         if (this.xSpeed < 0) {
           this.xSpeed = 0;
@@ -191,18 +199,25 @@ class TrafficLight {
   update() {
     fill(this.state);
 
-    rect(width / 2, height / 2 - 25, 50);
+    rect(width/2, 190, 50);
 
-    //FIX THIS
-    if (keyIsDown && keyCode === 32) {
+    this.state = "green";
+
+    if (keyIsPressed && keyCode === 32) {
       this.state = "red";
-      if (this.state === "red") {
-        //stop all vehicles for 120 frames
-        frameRate(0);
-
-        //turn state back to green
-        this.state = "green";
-      }
+      //stop all vehicles
+      moving = false;
+      timeElapsed = 0;
     }
+  }
+}
+
+function timeLogic(){
+  if(timeElapsed === 120){
+    moving = true;
+    trafficLight.state = "green";
+  }
+  else if(timeElapsed > 0 && timeElapsed < 120){
+    trafficLight.state = "red";
   }
 }
