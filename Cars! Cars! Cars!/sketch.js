@@ -16,7 +16,7 @@ function setup() {
     eastbound.push(new Vehicle(round(random(0, 1)), color(random(255), random(255), random(255)), random(0, width), random(250, height / 2 - 50), 1, random(-1, -5)));
     westbound.push(new Vehicle(round(random(0, 1)), color(random(255), random(255), random(255)), random(0, width), random(height / 2 + 25, 700), 0, random(1, 5)));
   }
-  
+
   trafficLight = new TrafficLight("green");
 }
 
@@ -79,7 +79,7 @@ function vehicleType(type, x, y, color) {
     rect(x, y, 50, 25);
   }
 
-  else if (type === 1) {
+  else {
     fill("grey");
     rect(x + 65, y - 5, 10);
     rect(x, y + 20, 10);
@@ -87,6 +87,19 @@ function vehicleType(type, x, y, color) {
     rect(x + 65, y + 20, 10);
     fill(color);
     rect(x, y, 75, 25);
+  }
+}
+
+function timeLogic() {
+  if (timeElapsed === 120) {
+    //120 frames pass then set moving and this.state to true
+    moving = true;
+    trafficLight.state = "green";
+  }
+
+  else if (timeElapsed > 0 && timeElapsed < 120) {
+    //else this.state = red
+    trafficLight.state = "red";
   }
 }
 
@@ -113,7 +126,7 @@ class Vehicle {
 
   move() {
     //moves cars depending on this.xSpeed
-    if(moving){
+    if (moving) {
       this.x += this.xSpeed;
       timeElapsed = 0;
     }
@@ -197,9 +210,10 @@ class TrafficLight {
   }
 
   update() {
+    //set color to this.state
     fill(this.state);
 
-    rect(width/2, 190, 50);
+    rect(width / 2, 190, 50);
 
     this.state = "green";
 
@@ -209,15 +223,5 @@ class TrafficLight {
       moving = false;
       timeElapsed = 0;
     }
-  }
-}
-
-function timeLogic(){
-  if(timeElapsed === 120){
-    moving = true;
-    trafficLight.state = "green";
-  }
-  else if(timeElapsed > 0 && timeElapsed < 120){
-    trafficLight.state = "red";
   }
 }
