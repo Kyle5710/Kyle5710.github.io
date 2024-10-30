@@ -8,7 +8,7 @@ let gridData = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 255, 0, 0, 0], [255, 255, 
 let checkTile = 0;
 let displayText;
 
-//check if cross or rectangle
+//if normal click should equate to a cross or rectangle pattern
 let currentState = 1;
 
 function setup() { 
@@ -22,7 +22,7 @@ function setup() {
 
 function draw() {
   background(220);
-  determineActiveSquare();   //figure out which tile the mouse cursor is over
+  determineActiveSquare(); //figure out which tile the mouse cursor is over
   drawGrid();
 
   //check if player has won
@@ -154,4 +154,5 @@ function winCondition() {
 
 function coloredOverlay() {
   //color potentiallly affected squares in a green overlay here
+  
 }
