@@ -5,35 +5,89 @@ let NUM_COLS = 5;
 let rectWidth, rectHeight;
 let currentRow, currentCol;
 let gridData = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 255, 0, 0, 0], [255, 255, 255, 0, 0]];
-let playerWon = 0;
+let checkTile = 0;
+let displayText;
 
+//check if cross or rectangle
+let currentState = 1;
 
-function setup() {
+function setup() { 
   // Determine the size of each square. Could use windowHeight,windowHeight  for Canvas to keep a square aspect ratio
   createCanvas(windowWidth, windowHeight);
   rectWidth = width / NUM_COLS;
   rectHeight = height / NUM_ROWS;
+  //randomize the tiles colors on setup
+  randomizeBoard();
 }
 
 function draw() {
   background(220);
   determineActiveSquare();   //figure out which tile the mouse cursor is over
   drawGrid();
-  winCondition();
+
+  //check if player has won
+  playerWon();
+
+}
+
+function playerWon() {
+  //scan through every tile on grid and return if all of them are 0 or 255
+  displayText = winCondition();
+
+  //show text if true
+  if (displayText === true) {
+    textSize(100);
+    fill("red");
+    text("You Win!", windowWidth / 2, windowHeight / 2);
+  }
+}
+
+function keyPressed(){
+  //change state between cross and rectangle when space is pressed
+  if (keyCode === 32) {
+    currentState *= -1;
+  }
 }
 
 function mousePressed() {
-  if (keyIsPressed && keyCode === SHIFT) {
-    //if shift is down and mouse clicked
-    flip(currentCol, currentRow);
+  if (keyIsPressed) {
+    if (keyCode === SHIFT) {
+      //if shift is down and mouse clicked
+      flip(currentCol, currentRow);
+    }
   }
 
-  else {
+  else if (currentState === 1) {
+    //normal click creates cross pattern
     flip(currentCol, currentRow);
     flip(currentCol - 1, currentRow);
     flip(currentCol + 1, currentRow);
     flip(currentCol, currentRow - 1);
     flip(currentCol, currentRow + 1);
+  }
+
+  else if (currentState === -1) {
+    //normal click creates rectangle pattern
+    flip(currentCol, currentRow);
+    flip(currentCol, currentRow + 1);
+    flip(currentCol + 1, currentRow);
+    flip(currentCol + 1, currentRow + 1);
+  }
+}
+
+function randomizeBoard() {
+  for (let x = 0; x < NUM_COLS; x++) {
+    for (let y = 0; y < NUM_ROWS; y++) {
+      let i = round(random(0, 1));
+
+      if (i === 1) {
+        gridData[y][x] = 255;
+      }
+
+      else {
+        gridData[y][x] = 0;
+      }
+    }
   }
 }
 
@@ -75,26 +129,29 @@ function winCondition() {
     for (let y = 0; y < NUM_ROWS; y++) {
       //if black then add 0
       if (gridData[y][x] === 0) {
-        playerWon += 0;
+        checkTile += 0;
       }
 
       //if white then add 1
       else {
-        playerWon += 1;
+        checkTile += 1;
       }
     }
   }
 
-  if (playerWon === 0 || playerWon === 20) {
+  if (checkTile === 0 || checkTile === 20) {
     //if all white or black then player has won
-    textSize(100);
-    fill("red");
-    text("You Win!", width / 2, height / 2);
+    checkTile = 0;
+    return true;
   }
 
   else {
     //reset back to 0
-    playerWon = 0;
+    checkTile = 0;
+    return false;
   }
 }
 
+function coloredOverlay() {
+  //color potentiallly affected squares in a green overlay here
+}
