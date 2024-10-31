@@ -1,4 +1,7 @@
-//Insert your Comment Header here.
+// Puzzle Game
+// Kyle MacLean
+// October 31, 2024
+// Puzzle Game with the goal of turning all tiles into the same color
 
 let NUM_ROWS = 4;
 let NUM_COLS = 5;
@@ -40,6 +43,7 @@ function playerWon() {
   if (displayText === true) {
     textSize(100);
     fill("red");
+    textAlign(CENTER);
     text("You Win!", windowWidth / 2, windowHeight / 2);
   }
 }
@@ -80,13 +84,16 @@ function mousePressed() {
 function randomizeBoard() {
   for (let x = 0; x < NUM_COLS; x++) {
     for (let y = 0; y < NUM_ROWS; y++) {
+      //random number either 0 or 1
       let i = round(random(0, 1));
 
       if (i === 1) {
+        //if 1 then black
         gridData[y][x] = 255;
       }
 
       else {
+        //if 2 then white
         gridData[y][x] = 0;
       }
     }
