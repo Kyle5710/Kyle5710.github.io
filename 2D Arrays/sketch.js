@@ -11,7 +11,7 @@ let displayText;
 //if normal click should equate to a cross or rectangle pattern
 let currentState = 1;
 
-function setup() { 
+function setup() {
   // Determine the size of each square. Could use windowHeight,windowHeight  for Canvas to keep a square aspect ratio
   createCanvas(windowWidth, windowHeight);
   rectWidth = width / NUM_COLS;
@@ -24,6 +24,8 @@ function draw() {
   background(220);
   determineActiveSquare(); //figure out which tile the mouse cursor is over
   drawGrid();
+  //colored overlay visual
+  coloredOverlay();
 
   //check if player has won
   playerWon();
@@ -42,7 +44,7 @@ function playerWon() {
   }
 }
 
-function keyPressed(){
+function keyPressed() {
   //change state between cross and rectangle when space is pressed
   if (keyCode === 32) {
     currentState *= -1;
@@ -153,6 +155,24 @@ function winCondition() {
 }
 
 function coloredOverlay() {
-  //color potentiallly affected squares in a green overlay here
+  //color potentially affected squares in a green overlay
+  fill(0, 255, 0, 100); //semi-transparent
   
+  //currentCol*rectWidth gives x
+  //currentRow*rectHeight gives y
+
+  if (currentState === 1) { // cross pattern
+    rect(currentCol * rectWidth, currentRow * rectHeight, rectWidth, rectHeight); //current tile
+    rect((currentCol - 1) * rectWidth, currentRow * rectHeight, rectWidth, rectHeight); //left of current tile
+    rect((currentCol + 1) * rectWidth, currentRow * rectHeight, rectWidth, rectHeight); //right of current tile
+    rect(currentCol * rectWidth, (currentRow - 1) * rectHeight, rectWidth, rectHeight); //above current tile
+    rect(currentCol * rectWidth, (currentRow + 1) * rectHeight, rectWidth, rectHeight); //below current tile
+  } 
+  
+  else if (currentState === -1) { // rectangle pattern
+    rect(currentCol * rectWidth, currentRow * rectHeight, rectWidth, rectHeight);
+    rect(currentCol * rectWidth, (currentRow + 1) * rectHeight, rectWidth, rectHeight);
+    rect((currentCol + 1) * rectWidth, currentRow * rectHeight, rectWidth, rectHeight);
+    rect((currentCol + 1) * rectWidth, (currentRow + 1) * rectHeight, rectWidth, rectHeight);
+  }
 }
