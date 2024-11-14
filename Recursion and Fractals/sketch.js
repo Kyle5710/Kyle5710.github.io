@@ -16,10 +16,10 @@ function setup() {
 function draw() {
   background(220);
   randomSeed(seed);
-  //circleInCircle(width / 2, height / 2, width);
+  circleInCircle(width / 2, height / 2, width);
   //cantor(width * 0.1, height * 0.3, width * 0.8, 6);
   //circleFractal(width / 2, height / 2, height / 2);
-  squareFractal(width / 2, height / 2, width / 2);
+  //squareFractal(width / 2, height / 2, width / 2);
 }
 
 function cantor(x, y, len, depth) {
