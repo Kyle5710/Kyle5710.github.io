@@ -4,18 +4,19 @@
 //
 
 let scale = 15;
+let userDepth = 4; //starting userDepth value
 let seed;
 
 function setup() {
   createCanvas(500, 500);
-  
   seed = random(100);
-
 }
 
 function draw() {
   background(255);
   drawTree(width / 2, height * 0.9, 90, 6);
+
+  //set seed
   randomSeed(seed);
 }
 
@@ -33,7 +34,7 @@ function drawLeaf(x2, y2, depth) {
   strokeWeight(1.5);
 
   //draw leaf
-  circle(x2, y2, random(depth * 10, depth * 15));
+  circle(x2, y2, random(depth * 10, depth * 20));
 }
 
 function drawTree(x1, y1, angle, depth) {
@@ -43,13 +44,13 @@ function drawTree(x1, y1, angle, depth) {
 
     drawLine(x1, y1, x2, y2, depth * 1.5);
 
-    //draw leaves on branches with depth < 5
-    if (depth < 5) {
+    //draw leaves on branches based on what userDepth is equal to
+    if (depth < userDepth) {
       drawLeaf(x2, y2, depth);
     }
 
     //determine what to add/subtract from angle
-    let den = map(mouseX, 0, width, 10, 45);
+    let den = map(mouseX, 0, windowWidth, 10, 45);
 
     //3-branch tree
     drawTree(x2, y2, angle, depth - 1);
@@ -60,12 +61,16 @@ function drawTree(x1, y1, angle, depth) {
 
 function keyPressed() {
   if (keyCode === 90) { //z key → reduce leaves till none drawn at all
-    userDepth -= 1;
-    print("z");
+    if(userDepth > 1){
+      userDepth -= 1;
+    }
   }
 
-  else if (keyCode === 88) { //x key → add leaves to every branch
-    userDepth += 1;
-    print("x");
+  else if (keyCode === 88) { //x key → eventually adds leaves to every branch
+    if(userDepth < 7){
+      userDepth += 1;
+    }
   }
+
+  print("UserDepth is now " + userDepth);
 }
