@@ -33,14 +33,14 @@ function drawLeaf(x2, y2, depth) {
   fill(color(random(255), random(255), random(255)));
   strokeWeight(1.5);
 
-  //draw leaf
+  //draw leaf based on depth
   circle(x2, y2, random(depth * 10, depth * 20));
 }
 
 function drawTree(x1, y1, angle, depth) {
   if (depth > 0) {
-    let x2 = x1 + cos(radians(angle)) * depth * scale;     //calculate endpoints of current branch
-    let y2 = y1 - sin(radians(angle)) * depth * scale;     //using trig ratios. Get shorter based on depth
+    let x2 = x1 + cos(radians(angle)) * depth * scale;   //calculate endpoints of current branch
+    let y2 = y1 - sin(radians(angle)) * depth * scale;   //using trig ratios. Get shorter based on depth
 
     drawLine(x1, y1, x2, y2, depth * 1.5);
 
