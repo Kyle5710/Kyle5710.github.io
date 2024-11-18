@@ -1,18 +1,14 @@
-let ball;
+let obama;
 
 function setup() {
-	new Canvas(500, 500);
-	displayMode('centered');
+	new Canvas(60, 10);
+	  //         (    mode, renderQuality, scale)
+	  displayMode('centered', 'pixelated');
 
-	ball = new Sprite();
-	ball.diameter = 50;
+	background('white');
+	noStroke();
 }
 
 function draw() {
-	background('skyblue');
 
-	if (mouse.presses()) {
-		ball.speed = 10;
-		ball.moveTo(mouse);
-	}
 }
